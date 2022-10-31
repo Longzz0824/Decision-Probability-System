@@ -2,7 +2,9 @@ import tt
 import calculation
 import graphs
 import brute_force
-G1 = tt.g1()
+import input
+#G1 = tt.g1()
+G1 = input.system_input()
 graphs.show_graph(G1)
 s = calculation.cal(G1)
 print('The Probability from initial state to final state is: ',s)

@@ -8,10 +8,11 @@ def cal(g: graphs.Graphs):
     init_state = g.initial_state.key
     equation_list = []
     for i in states:
+        i.update_activated_states()
         if i.get_probability_equation() is not None:
             equation_list.append(i.get_probability_equation())
     stn = g.get_states_names()
-#    print(equationlist)
+#    print(equation_list)
 
     state_dic = {}
     for i in stn:

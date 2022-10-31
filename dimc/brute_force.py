@@ -17,31 +17,33 @@ def res_print(dic:dict):
 
 def brute_force(g:graphs.Graphs):
     trans = g.get_transitions_names()
-    ln = len(trans)
+    transitions_num = len(trans)
     lst = []
-    num = 2**ln - 1
+    num = 2**transitions_num - 1
     res = []
     for i in range(num,-1,-1):
-        lst = list(bin(i)[2:].rjust(ln,'0'))
+        lst = list(bin(i)[2:].rjust(transitions_num,'0'))
 
-        for j in range(ln):
+        for j in range(transitions_num):
             m = trans[j]
             if lst[j] == '1':
 #                print('1')
                 g.get_transition(m).activate()
-            else:
+            elif lst[j] == '0' and g.get_transition(m).can_be_deactivated == True:
 #                print('0')
                 g.get_transition(m).deactivate()
-
-        prob = cal(g)
-        dic1 ={}
-        dic1.update(g.get_transitions_dict())
-        dic1.update({'Probability' : prob})
-        res.append(dic1)
+            elif lst[j] == '0' and g.get_transition(m).can_be_deactivated == False:
+                break
+        else:    
+            prob = cal(g)
+            dic1 ={}
+            dic1.update(g.get_transitions_dict())
+            dic1.update({'Probability' : prob})
+            res.append(dic1)
 #        print(dic1)
 #    print(res)
     pr_list = []
-    for i in range(num+1):
+    for i in range(len(res)):
         resp = res[i]
         pr = resp['Probability']
         pr_list.append(pr)

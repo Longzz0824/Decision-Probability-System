@@ -1,27 +1,30 @@
-import state
 from fractions import Fraction
 
 class Transition():
     
-    def __init__(self,s1:state.State, s2:state.State):
+    def __init__(self,s1, s2, ipr, ability):
         self.key = s1.get_id() +'->'+ s2.get_id()
         self.source = s1
         self.target = s2
+        self.initial_probability = ipr
+        self.current_probability = ipr
         self.is_activated = True
         self.is_deactivated = False
+        if ability == 'yes':
+            self.can_be_deactivated = True
+        else:
+            self.can_be_deactivated = False
     
     def activate(self):
         if(self.is_activated == False):
             self.is_activated = True
             self.is_deactivated = False
-            self.source.add_target_state(self.target)
 
     def deactivate(self):
-        if(self.is_deactivated == False): 
+        if(self.is_deactivated == False and self.can_be_deactivated == True): 
             self.is_deactivated = True
             self.is_activated = False
-            self.source.transition_num -= 1
-            self.source.target_states.pop(self.target)
+
 
 #    def get_trans_dic(self):
 #        if self.isActivated == True:

@@ -11,25 +11,37 @@ class Graphs():
     def __init__(self, num: int):
         self.state_dict = {}
         # Use dictionary to save state infomation, likes{ key: State}
+        self.state_index_dict = {}
+        
         self.transition_dict = {}
         # Use dictionary to save state infomation, likes{ key: Transition}
         self.states_num = num
         # Calculate the current number of states
         self.final_states = []
+#        self.sorted_states_names_list = []
+        self.state_counter = 0
 
     def add_state(self, key):
         self.state_dict.update({key: state.State(key)})    
+        self.state_index_dict.update({key:self.state_counter})
+        self.state_counter += 1
 
     def get_state(self, key ) -> state.State:                # Return Type: State
         state = self.state_dict.get(key)
         return state            
     
+    def get_state_index(self, key):
+        index = self.state_index_dict.get(key)
+        return index
+
     def set_initial_state(self, s: str):
         self.initial_state = self.get_state(s)
+        self.initial_state_name = s
         self.get_state(s).is_initial_state = True
     
     def set_final_state(self, s: str):
         self.final_states.append(self.get_state(s))
+        self.final_state_name = s
         self.get_state(s).is_final_state = True
     
     def add_transition(self, key:str, ipr, ability):
@@ -57,14 +69,14 @@ class Graphs():
         transList = []
         for i in self.get_states_names():
             s = self.get_state(i)
-            if s.transition_num:
+            if s.transition_as_source_num:
                 transList.extend(s.get_all_transitions_tuple())
         return transList    
 
     def get_transitions_names(self):
         return list(self.transition_dict.keys())
 
-    def get_transitions_dict(self):
+    def get_transitions_dict(self):   #use it only for bet
         lst = self.get_transitions_names()
         lac = []
         lde = []

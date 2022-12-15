@@ -10,10 +10,12 @@ class Transition():
         self.current_probability = ipr
         self.is_activated = True
         self.is_deactivated = False
-        if ability == 'yes':
+        if ability == 'can':
             self.can_be_deactivated = True
-        else:
+        elif ability == 'cannot':
             self.can_be_deactivated = False
+
+
     
     def activate(self):
         if(self.is_activated == False):
@@ -24,6 +26,7 @@ class Transition():
         if(self.is_deactivated == False and self.can_be_deactivated == True): 
             self.is_deactivated = True
             self.is_activated = False
+            self.current_probability = 0
 
 
 #    def get_trans_dic(self):

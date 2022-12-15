@@ -75,5 +75,5 @@ def graph_to_matrix(graph: graphs.Graphs):
     return graph_matrix
 
 
-def random_graph_matrix(num: int):
+def random_graph_matrix2(num: int):
     pass

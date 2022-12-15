@@ -12,8 +12,7 @@ print('The Probability from initial state to final state is: ',s)
 brute_force.brute_force(G1)'''
 
 
-a = graph_matrix.random_graph_matrix(6)
-b = graph_matrix.random_ability_matrix(6)
+a, b = graph_matrix.random_graph(6)
 G1 = graph_matrix.matrix_to_graph(a,b)
 print('The initial state : ',G1.initial_state_name)
 print('The final state : ',G1.final_state_name)

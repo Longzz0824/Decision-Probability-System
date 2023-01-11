@@ -14,10 +14,11 @@ def system_input():
 
     a = input("Please select one of the states as the initial state, input it's name: ").strip()
     G1.set_initial_state(a)
-    b = input("Please select some of the states as the final state, input it's name: ").split()
+    b = input("Please select one of the states as the final state, input it's name: ").split()
     for i in b:
         G1.set_final_state(i)
     print("Then let's start inputting the transitions!")
+    
     '''    state_list = G1.get_states_names()
     for j in state_list:
         nbr = input("Please input the neibor of state " + str(j)+ ': ').split()

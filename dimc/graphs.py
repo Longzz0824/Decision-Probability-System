@@ -1,5 +1,6 @@
 import state
 import transitions
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -12,14 +13,14 @@ class Graphs():
         self.state_dict = {}
         # Use dictionary to save state infomation, likes{ key: State}
         self.state_index_dict = {}
-        
+        # Use dictionary to save state index pairs, likes { key0: 0, key1: 1}
         self.transition_dict = {}
         # Use dictionary to save state infomation, likes{ key: Transition}
         self.states_num = num
         # Calculate the current number of states
-        self.final_states = []
-#        self.sorted_states_names_list = []
         self.state_counter = 0
+        self.adjacency_matrix = np.zeros((num, num), dtype=np.float64)
+        self.ability_matrix = np.full((num,num),'undefined' )
 
     def add_state(self, key):
         self.state_dict.update({key: state.State(key)})    
@@ -40,7 +41,7 @@ class Graphs():
         self.get_state(s).is_initial_state = True
     
     def set_final_state(self, s: str):
-        self.final_states.append(self.get_state(s))
+        self.final_state = self.get_state(s)
         self.final_state_name = s
         self.get_state(s).is_final_state = True
     
@@ -49,6 +50,8 @@ class Graphs():
         two_states = key.split('->')
         source_name = two_states[0]
         target_name = two_states[1]
+        self.adjacency_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ipr
+        self.ability_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ability
         source_state, target_state = self.get_state(source_name), self.get_state(target_name)
         source_state.add_target_state(target_state, fraction_initial_probility)
         self.transition_dict.update({key: transitions.Transition(source_state, target_state, fraction_initial_probility, ability)})
@@ -76,7 +79,7 @@ class Graphs():
     def get_transitions_names(self):
         return list(self.transition_dict.keys())
 
-    def get_transitions_dict(self):   #use it only for bet
+    def get_transitions_dict(self):   #use it only for looks better
         lst = self.get_transitions_names()
         lac = []
         lde = []

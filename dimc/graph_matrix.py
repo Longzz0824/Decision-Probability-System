@@ -68,23 +68,7 @@ def matrix_to_graph(matrix_a:np.ndarray, matrix_b: np.ndarray):
 
     return new_graph
 
-def graph_to_matrix(graph: graphs.Graphs):
-    states_name_list = graph.get_states_names()
-    graph.state_index_dict
-    graph_matrix = np.zeros((graph.states_num,graph.states_num))
-    for i in states_name_list:
-        state = graph.get_state(i)
-        source_index = graph.get_state_index(i)
-        connected_transtions_list = list(state.connected_transition_dict.keys())
-        if len(connected_transtions_list) != 0:
-            for j in connected_transtions_list:
-                target = j.target.get_id()
-                prob = j.current_probability 
-                target_index = graph.get_state_index(target)
-                graph_matrix[source_index][target_index] = prob
-        else:
-            pass
-    return graph_matrix
+
 
 
 

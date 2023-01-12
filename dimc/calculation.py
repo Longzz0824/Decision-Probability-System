@@ -31,6 +31,11 @@ def cal(g: graphs.Graphs):
    
 
 
-
-def calc(g:graphs.Graphs):
-    pass
+def print_result(g1:graphs.Graphs):
+    result = cal(g1)
+    activated_transitions, deactivated_transitions = g1.transitions_status()
+    print('the probability is: ' + str(result))
+    print('activated transitions: ', end='')
+    print(activated_transitions)
+    print('deactivated transitions: ', end='')
+    print(deactivated_transitions)

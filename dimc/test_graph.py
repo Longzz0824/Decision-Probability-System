@@ -1,5 +1,6 @@
 import graphs
 import heuristic
+import calculation
 
 def g1():
     G1 = graphs.Graphs(5)
@@ -21,6 +22,7 @@ def g1():
 
 G1 = g1()
 print(G1.adjacency_matrix, G1.ability_matrix,G1.state_index_dict)
-a = heuristic.dejkstra(G1)
-print('-----------------')
-print(a)
+print(G1.is_reachable('s2','s3'))
+print(calculation.cal(G1))
+heuristic.deactivate_all_useless_transitions(G1)
+heuristic.dijkstra2(G1)

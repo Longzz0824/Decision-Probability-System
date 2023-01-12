@@ -16,6 +16,9 @@ class Graphs():
         # Use dictionary to save state index pairs, likes { key0: 0, key1: 1}
         self.transition_dict = {}
         # Use dictionary to save state infomation, likes{ key: Transition}
+        
+        self.transition_init_probability_dict = {}   # likes {'a->b': 0.3}
+
         self.states_num = num
         # Calculate the current number of states
         self.state_counter = 0
@@ -46,16 +49,21 @@ class Graphs():
         self.get_state(s).is_final_state = True
     
     def add_transition(self, key:str, ipr, ability):
-        fraction_initial_probility = fractions.Fraction(Decimal(ipr))
+        fraction_initial_probability = fractions.Fraction(Decimal(ipr))
         two_states = key.split('->')
         source_name = two_states[0]
         target_name = two_states[1]
+        
         self.adjacency_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ipr
         self.ability_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ability
         source_state, target_state = self.get_state(source_name), self.get_state(target_name)
-        source_state.add_target_state(target_state, fraction_initial_probility)
-        self.transition_dict.update({key: transitions.Transition(source_state, target_state, fraction_initial_probility, ability)})
-        source_state.connected_transition_dict.update({self.transition_dict.get(key): fraction_initial_probility})
+
+        source_state.add_target_state(target_state, fraction_initial_probability)
+        source_state.out_transitions.append(key)
+        target_state.in_transitions.append(key)
+        self.transition_dict.update({key: transitions.Transition(source_state, target_state, fraction_initial_probability, ability)})
+        self.transition_init_probability_dict.update({key: ipr})
+        source_state.current_connected_transition_dict.update({self.transition_dict.get(key): fraction_initial_probability})
 
     def get_transition(self, key):            # Return Type: Transition
         transition = self.transition_dict.get(key)
@@ -95,6 +103,34 @@ class Graphs():
         states = self.get_states()
         for i in states:
             i.update_activated_states()
+
+    def is_reachable(self, start: str, target: str): #Find if there is a path from state 'start' to state 'target'
+        s = self.state_index_dict.get(start)
+        d = self.state_index_dict.get(target)
+        visited =[False]*(self.states_num)
+        queue = []
+        queue.append(s)
+        visited[s] = True
+        while(queue):
+            n = queue.pop(0)
+            if n == d:
+                return True
+            for i in range(self.states_num):
+                if visited[i] == False and self.adjacency_matrix[n][i] != 0:
+                    queue.append(i)
+                    visited[i] = True
+        return False
+    
+    def transitions_status(self):
+        activated_trans = set()
+        deactivated_trans = set()
+        for i in list(self.transition_dict.keys()):
+            if self.transition_dict.get(i).is_activated:
+                activated_trans.add(i)
+            else:
+                deactivated_trans.add(i)
+        return activated_trans, deactivated_trans
+
 
 def show_graph(graphs: Graphs):      #input nx.Graph
     G = nx.DiGraph()

@@ -23,11 +23,11 @@ def deactivate_all_useless_transitions(g1: graphs.Graphs):
             for j in current_state.in_transitions:
                 useless_transition1 = g1.get_transition(j)
                 if useless_transition1.can_be_deactivated == True:
-                    g1.get_transition(i+'->'+i).deactivate()
+                    g1.get_transition(j).deactivate()
             for j in current_state.out_transitions:
                 useless_transition2 = g1.get_transition(j)
                 if useless_transition2.can_be_deactivated == True:
-                    g1.get_transition(i+'->'+i).deactivate()
+                    g1.get_transition(j).deactivate()
     #deactivate all forward transitions for states that don't have a path to the final state.
     g1.update()
 #    result = cal(g1)
@@ -89,7 +89,7 @@ def dijkstra2(g1:graphs.Graphs):
         if i not in must_be_activated_trans:
             g1.transition_dict.get(i).deactivate()
     
-    g1.update
+    g1.update()
     print_result(g1)
 
 

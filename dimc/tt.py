@@ -20,7 +20,7 @@ def dijkstra(edges, f, t):
                 if v2 in seen:
                     continue
                 prev = mins.get(v2, None)
-                next = cost + c
+                next() = cost + c
                 if prev is None or next < prev:
                     mins[v2] = next
                     heappush(q, (next, v2, path))

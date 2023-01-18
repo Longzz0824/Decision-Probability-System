@@ -34,7 +34,7 @@ def deactivate_all_useless_transitions(g1: graphs.Graphs):
 #    return result  
 
 
-def dejkstra(g1:graphs.Graphs):
+'''def dejkstra(g1:graphs.Graphs):
     start = g1.initial_state_name # the index of the initial state
     end = g1.final_state_name # the index of the final state
     adjacency_matrix = g1.adjacency_matrix  
@@ -51,18 +51,18 @@ def dejkstra(g1:graphs.Graphs):
         for next in not_visited:
             heappush(queue, (prob * adjacency_matrix[node][next], next))
     return
-    
+    '''
 
 def dijkstra2(g1:graphs.Graphs):
     start = g1.initial_state_name # the index of the initial state
     end = g1.final_state_name # the index of the final state     
     dic = defaultdict(list)
-    transitions = list(g1.transition_init_probability_dict.keys())
+    transitions = list(g1.transition_current_probability_dict.keys())
     for i in transitions:
         two_states = i.split('->')
         source_name = two_states[0]
         target_name = two_states[1]
-        dic[source_name].append((g1.transition_init_probability_dict.get(i), target_name))
+        dic[source_name].append((g1.transition_current_probability_dict.get(i), target_name))
     q, seen, mins = [(-1, start, [])], set(), {start: 0}
     while q:
         (probability, s1, path) = heappop(q)

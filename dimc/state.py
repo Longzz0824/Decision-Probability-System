@@ -10,9 +10,11 @@ class State():
         self.out_transitions = []
         self.transition_as_source_num = 0
         self.transition_as_target_num = 0
-        self.current_activated_target_states = {} # { 'b':0.4, 'c':0.2}  0.4/(0.4+0.2)
-        self.current_connected_transition_dict = {}  # [Transition a->b : 0.4 ,Transition a->c : 0.2 ,Transition a->d : 0.4]
         
+        self.all_connected_transition_dict = {}  # [Transition a->b : 0.4 ,Transition a->c : 0.2 ,Transition a->d : 0.4]
+        self.current_activated_target_states = {} # { 'b':0.4, 'c':0.2}  0.4/(0.4+0.2)
+        self.current_transitions_as_source = {}
+
         self.is_final_state = False
         self.is_initial_state = False
     def add_target_state(self, nbr, ipr):
@@ -31,19 +33,21 @@ class State():
         current_probability_list = []
         activated_transition_list = []
         sum = 0
-        for i in self.current_connected_transition_dict:
+        for i in self.all_connected_transition_dict:
             if i.is_activated == True:
                 activated_connected_state_list.append(i.target)
-                initial_probability_list.append(self.current_connected_transition_dict[i])
-                sum +=  self.current_connected_transition_dict[i]
+                initial_probability_list.append(self.all_connected_transition_dict[i])
+                sum +=  self.all_connected_transition_dict[i]
                 activated_transition_list.append(i)
-            
+            else:
+                self.current_transitions_as_source.update({i.key:0})
         for i in initial_probability_list:
             current_probability_list.append(i/sum)
 
         for i in range(len(activated_connected_state_list)):
             self.current_activated_target_states.update({activated_connected_state_list[i]:current_probability_list[i]})
             activated_transition_list[i].current_probability = current_probability_list[i]
+            self.current_transitions_as_source.update({activated_transition_list[i].key:current_probability_list[i]})
             
 
     def get_all_transitions_tuple(self):       # Use tuple to save every transition then use list to save them.

@@ -10,6 +10,67 @@ def random_ability_set():
     else:
         return 'cannot'
 
+def random_unit(prob:float):
+    assert prob >= 0 and prob <= 1
+    if prob == 0:
+        return False
+    if prob == 1:
+        return True
+    prob_digits = len(str(prob).split(".")[1])
+    begin = 1
+    end = pow(10,prob_digits)
+    R = random.randint(begin,end)
+    if float(R/end) < prob:
+        return True
+    else:
+        return False
+
+def random_graph_generate(num: int):
+    p1 = 0.0
+    p2 = 1.0
+    p3 = 0.5
+    admx = np.zeros((num,num))
+    ability_matrix = np.full((num,num),'undefined' )
+    have_connection = np.full(num,False)
+    random.randint(1,100)
+    for i in range(num):
+        for j in range(num):
+            if j <= i and random_unit(p1):                          # have transition i->j with prob p1
+                admx[i][j] = np.random.randint(1,10)
+                have_connection[j] = True                      
+            if j > i:
+                if have_connection[j] == False and random_unit(p2): # if j has not been connected, have transition i->j with prob p2
+                    admx[i][j] = np.random.randint(1,10)
+                    have_connection[j] = True
+                if have_connection[j] == True and random_unit(p3):
+                    admx[i][j] = np.random.randint(1,10)
+                    have_connection[j] = True
+
+    for i in range(num):
+        sum = np.sum(admx[i])
+        for j in range(num):
+            if sum != 0:
+                admx[i][j] /= sum
+#                print(sum,a[i][j])
+                if admx[i][j] != 0:
+                    ability_matrix[i][j] = random_ability_set()
+
+            else:
+                break                            
+
+    new_graph = graphs.Graphs(num)
+    for i in range(num):
+        new_graph.add_state('s'+str(i))
+    
+    new_graph.set_initial_state('s'+str(0))
+    new_graph.set_final_state('s'+str(np.random.randint(1,num)))
+    
+    for i in range(num):
+        for j in range(num):
+            if admx[i][j] != 0:
+                new_graph.add_transition('s'+str(i)+'->'+'s'+str(j), admx[i][j],ability_matrix[i][j])
+    return new_graph
+
 def random_graph(num: int):
     b = np.random.randint(-10,9,(num, num))
     graph_matrix = np.maximum(b,0)

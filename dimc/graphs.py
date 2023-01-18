@@ -7,6 +7,8 @@ import matplotlib.image as mpimg
 import pygraphviz as pgv
 import fractions
 from decimal import Decimal
+import random
+
 class Graphs():
     
     def __init__(self, num: int):
@@ -18,7 +20,7 @@ class Graphs():
         # Use dictionary to save state infomation, likes{ key: Transition}
         
         self.transition_init_probability_dict = {}   # likes {'a->b': 0.3}
-
+        self.transition_current_probability_dict = {}
         self.states_num = num
         # Calculate the current number of states
         self.state_counter = 0
@@ -63,7 +65,9 @@ class Graphs():
         target_state.in_transitions.append(key)
         self.transition_dict.update({key: transitions.Transition(source_state, target_state, fraction_initial_probability, ability)})
         self.transition_init_probability_dict.update({key: ipr})
-        source_state.current_connected_transition_dict.update({self.transition_dict.get(key): fraction_initial_probability})
+        self.transition_current_probability_dict.update({key: ipr})
+        source_state.all_connected_transition_dict.update({self.transition_dict.get(key): fraction_initial_probability})
+        source_state.current_transitions_as_source.update({key: fraction_initial_probability})
 
     def get_transition(self, key):            # Return Type: Transition
         transition = self.transition_dict.get(key)
@@ -103,6 +107,7 @@ class Graphs():
         states = self.get_states()
         for i in states:
             i.update_activated_states()
+            self.transition_current_probability_dict.update(i.current_transitions_as_source)
 
     def is_reachable(self, start: str, target: str): #Find if there is a path from state 'start' to state 'target'
         s = self.state_index_dict.get(start)
@@ -162,7 +167,7 @@ def show_graph(graphs: Graphs):      #input nx.Graph
     plt.imshow(img)
     plt.show()
  
-
+ 
 
 
 

@@ -25,4 +25,19 @@ print(G1.adjacency_matrix, G1.ability_matrix,G1.state_index_dict)
 print(G1.is_reachable('s2','s3'))
 print(calculation.cal(G1))
 heuristic.deactivate_all_useless_transitions(G1)
+print(G1.transition_current_probability_dict)
+print(G1.get_transition('s1->s4').current_probability)
+print(G1.get_transition('s1->s4').is_deactivated)
 heuristic.dijkstra2(G1)
+
+
+'''
+G1 = g1()
+G1.update()
+print(G1.transition_current_probability_dict)
+print(G1.is_reachable('s4','s3'))
+heuristic.deactivate_all_useless_transitions(G1)
+print(G1.transition_current_probability_dict)
+print(G1.get_state('s4').in_transitions)
+print(G1.get_transition('s1->s4').current_probability)
+'''

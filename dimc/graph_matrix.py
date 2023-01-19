@@ -26,9 +26,9 @@ def random_unit(prob:float):
         return False
 
 def random_graph_generate(num: int):
-    p1 = 0.0
-    p2 = 1.0
-    p3 = 0.5
+    p1 = 0.1
+    p2 = 0.6
+    p3 = 0.3
     admx = np.zeros((num,num))
     ability_matrix = np.full((num,num),'undefined' )
     have_connection = np.full(num,False)

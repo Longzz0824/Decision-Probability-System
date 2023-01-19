@@ -30,6 +30,7 @@ def deactivate_all_useless_transitions(g1: graphs.Graphs):
                     g1.get_transition(j).deactivate()
     #deactivate all forward transitions for states that don't have a path to the final state.
     g1.update()
+    print_result(g1)
 #    result = cal(g1)
 #    return result  
 

@@ -35,10 +35,10 @@ def brute_force(g:graphs.Graphs):
             elif lst[j] == '0' and g.get_transition(m).can_be_deactivated == False:
                 break
         else:    
-            prob = cal(g)
+            prob_str = cal(g)
             dic1 ={}
             dic1.update(g.get_transitions_dict())
-            dic1.update({'Probability' : prob})
+            dic1.update({'Probability' : prob_str})
             res.append(dic1)
 #        print(dic1)
 #    print(res)
@@ -46,9 +46,12 @@ def brute_force(g:graphs.Graphs):
     for i in range(len(res)):
         resp = res[i]
         pr = resp['Probability']
-        pr_list.append(pr)
-    
+        aa = float(pr.strip('%')) 
+        bb = aa/100.0
+        pr_list.append(bb)
+#    print(pr_list)
     index = max_index(pr_list)
+    print(index)
     res_list = []
     for i in index:
         n = res[i]

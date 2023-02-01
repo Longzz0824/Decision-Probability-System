@@ -73,6 +73,8 @@ class State():
                     add = '+'
                     right_side_of_equation = add.join(tranlist)
                     return self.key +'=='+ right_side_of_equation
+                else:
+                    return self.key +'=='+ str(0)
         else:
             return self.key +'=='+ str(1)
 

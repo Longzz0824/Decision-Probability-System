@@ -1,7 +1,7 @@
 import graphs
 from z3 import *
 from state import State
-import fractions
+
 
 def cal(g: graphs.Graphs):
     states = g.get_states()
@@ -21,10 +21,13 @@ def cal(g: graphs.Graphs):
     solver = Solver()
     for q in equation_list:
         solver.add(eval(q))
+    set_option(precision = 8)
     if solver.check() == sat:
         result = solver.model()
     if result[state_dic[init_state]] != None:
         probability = result[state_dic[init_state]].as_fraction()
+        probability_float = float(probability)
+        probability = "%.2f%%" % (probability_float * 100)
         return probability
     else:
         return Fraction(0,1)
@@ -33,6 +36,8 @@ def cal(g: graphs.Graphs):
 
 def print_result(g1:graphs.Graphs):
     result = cal(g1)
+    print('initial state: ',g1.initial_state_name)
+    print('final state: ',g1.final_state_name)
     activated_transitions, deactivated_transitions = g1.transitions_status()
     print('the probability is: ' + str(result))
     print('activated transitions: ', end='')

@@ -1,7 +1,7 @@
 import graphs
 import heuristic
 import calculation
-
+import brute_force
 def g1():
     G1 = graphs.Graphs(5)
     G1.add_state('s0')
@@ -20,17 +20,40 @@ def g1():
     G1.set_initial_state('s0')
     return G1
 
+def g2():
+    G1 = graphs.Graphs(8)
+    G1.add_state('s0')
+    G1.add_state('s1')
+    G1.add_state('s2')
+    G1.add_state('s3')
+    G1.add_state('s4')
+    G1.add_state('s5')
+    G1.add_state('s6')
+    G1.add_state('s7')
+    G1.add_transition('s0->s7','0.3333','cannot')
+    G1.add_transition('s0->s1','0.6667','can')
+    G1.add_transition('s1->s2','0.125','cannot')
+    G1.add_transition('s1->s3','0.4375','can')
+    G1.add_transition('s1->s4','0.125','cannot')
+    G1.add_transition('s1->s5','0.25','cannot')
+    G1.add_transition('s1->s6','0.0625','can')
+    G1.add_transition('s2->s3','0.3','can')
+    G1.add_transition('s2->s4','0.4','can')
+    G1.add_transition('s2->s7','0.3','can')
+    G1.add_transition('s3->s6','0.5','cannot')
+    G1.add_transition('s3->s7','0.5','cannot')
+    G1.add_transition('s5->s6','1','can')
+    G1.set_final_state('s2')
+    G1.set_initial_state('s0')
+    return G1
 G1 = g1()
-print(G1.adjacency_matrix, G1.ability_matrix,G1.state_index_dict)
+G2 = g2()
+#print(G2.adjacency_matrix, G2.ability_matrix,G2.state_index_dict)
 
 print(calculation.cal(G1))
 heuristic.deactivate_all_useless_transitions(G1)
-print(G1.transition_current_probability_dict)
-print(G1.get_transition('s1->s4').current_probability)
-print(G1.get_transition('s1->s4').is_deactivated)
 heuristic.dijkstra2(G1)
-
-
+brute_force.brute_force(G1)
 '''
 G1 = g1()
 G1.update()

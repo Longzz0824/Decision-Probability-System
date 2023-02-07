@@ -32,12 +32,13 @@ def cal(g: graphs.Graphs):
     else:
         return Fraction(0,1)
    
-
+def print_special_states(g1:graphs.Graphs):
+    print('initial state: ',g1.initial_state_name)
+    print('final state: ',g1.final_state_name)
+    print('')
 
 def print_result(g1:graphs.Graphs):
     result = cal(g1)
-    print('initial state: ',g1.initial_state_name)
-    print('final state: ',g1.final_state_name)
     activated_transitions, deactivated_transitions = g1.transitions_status()
     print('the probability is: ' + str(result))
     print('activated transitions: ', end='')

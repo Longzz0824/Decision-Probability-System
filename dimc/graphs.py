@@ -126,6 +126,7 @@ class Graphs():
                     visited[i] = True
         return False
     
+
     def transitions_status(self):
         activated_trans = set()
         deactivated_trans = set()

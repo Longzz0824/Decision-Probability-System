@@ -51,13 +51,14 @@ def brute_force(g:graphs.Graphs):
         pr_list.append(bb)
 #    print(pr_list)
     index = max_index(pr_list)
-    print(index)
+#    print(index)
     res_list = []
     for i in index:
         n = res[i]
         res_list.append(n)
     
     for i in range(len(res_list)):
+        print('\nBrute force result is: ')
         print('Result %d is: ' %(i+1))
         res_print(res_list[i])
         

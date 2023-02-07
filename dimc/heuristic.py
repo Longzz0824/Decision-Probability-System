@@ -82,7 +82,7 @@ def dijkstra2(g1:graphs.Graphs):
                     mins[s2] = next
                     heappush(q, (next, s2, path))
     path.reverse()
-    print(path)
+#    print(path)
     must_be_activated_trans = []
     for i in range(len(path) - 1):
         must_be_activated_trans.append(path[i] + '->' + path[i + 1])

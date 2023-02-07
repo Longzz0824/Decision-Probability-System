@@ -126,6 +126,13 @@ class Graphs():
                     visited[i] = True
         return False
     
+    def activate_all_the_transitions(self):
+        trans_name = self.get_transitions_names()
+        for i in trans_name:
+            transition = self.transition_dict.get(i)
+            transition.activate()
+        self.update()
+
 
     def transitions_status(self):
         activated_trans = set()

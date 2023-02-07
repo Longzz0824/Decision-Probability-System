@@ -57,7 +57,7 @@ calculation.print_result(G1)
 print('\nthe result of deactivate all useless transitions :')
 heuristic.deactivate_all_useless_transitions(G1)
 print('\nthe result of dijkstra :')
-heuristic.dijkstra2(G1)
+heuristic.dijkstra(G1)
 brute_force.brute_force(G1)
 '''
 G1 = g1()

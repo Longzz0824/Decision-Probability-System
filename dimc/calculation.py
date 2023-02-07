@@ -45,3 +45,4 @@ def print_result(g1:graphs.Graphs):
     print(activated_transitions)
     print('deactivated transitions: ', end='')
     print(deactivated_transitions)
+

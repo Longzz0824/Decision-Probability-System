@@ -71,7 +71,7 @@ def random_graph_generate(num: int):
                 new_graph.add_transition('s'+str(i)+'->'+'s'+str(j), admx[i][j],ability_matrix[i][j])
     return new_graph
 
-def random_graph(num: int):
+'''def random_graph(num: int):
     b = np.random.randint(-10,9,(num, num))
     graph_matrix = np.maximum(b,0)
     graph_matrix = graph_matrix.astype(np.float64)
@@ -98,7 +98,7 @@ def random_graph(num: int):
     print(graph_matrix)
     print(ability_matrix)
     return graph_matrix, ability_matrix
-
+'''
 '''
 def random_ability_matrix(num: int):
     matrix_np = np.random.randint(-7,2,(num,num))

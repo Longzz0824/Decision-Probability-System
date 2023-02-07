@@ -61,6 +61,48 @@ def brute_force(g:graphs.Graphs):
         print('\nBrute force result is: ')
         print('Result %d is: ' %(i+1))
         res_print(res_list[i])
+
+
+def brute_force_probability(g:graphs.Graphs):  #same with brute_force, but it only return the probability
+    trans = g.get_transitions_names()
+    transitions_num = len(trans)
+    lst = []
+    num = 2**transitions_num - 1
+    res = []
+    for i in range(num,-1,-1):
+        lst = list(bin(i)[2:].rjust(transitions_num,'0'))
+
+        for j in range(transitions_num):
+            m = trans[j]
+            if lst[j] == '1':
+#                print('1')
+                g.get_transition(m).activate()
+            elif lst[j] == '0' and g.get_transition(m).can_be_deactivated == True:
+#                print('0')
+                g.get_transition(m).deactivate()
+            elif lst[j] == '0' and g.get_transition(m).can_be_deactivated == False:
+                break
+        else:    
+            prob_str = cal(g)
+            dic1 ={}
+            dic1.update(g.get_transitions_dict())
+            dic1.update({'Probability' : prob_str})
+            res.append(dic1)
+#        print(dic1)
+#    print(res)
+    pr_list = []
+    for i in range(len(res)):
+        resp = res[i]
+        pr = resp['Probability']
+        aa = float(pr.strip('%')) 
+        bb = aa/100.0
+        pr_list.append(bb)
+#    print(pr_list)
+    highest_probability = max(pr_list)
+    highest_probability = "%.2f%%" % (highest_probability * 100)
+    return highest_probability
+
+
         
 
 

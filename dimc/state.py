@@ -3,28 +3,23 @@ import transitions
 class State():
     def __init__(self, key):
         self.key = key
-        self.target_states = {}
-        # Use dictionary to save transition information, likes{ State: initial_probability(fraction_type)}
-        self.source_states = []
         self.in_transitions = []
         self.out_transitions = []
+        self.out_states = []
         self.transition_as_source_num = 0
-        self.transition_as_target_num = 0
-        
         self.all_connected_transition_dict = {}  # [Transition a->b : 0.4 ,Transition a->c : 0.2 ,Transition a->d : 0.4]
         self.current_activated_target_states = {} # { 'b':0.4, 'c':0.2}  0.4/(0.4+0.2)
         self.current_transitions_as_source = {}
-
         self.is_final_state = False
         self.is_initial_state = False
-    def add_target_state(self, nbr, ipr):
+    
+    
+    def transition_num_count(self):
         self.transition_as_source_num += 1
-        self.target_states.update({nbr: ipr})
+
         #self.out_transitions.append(self.key + '->' + )
     
-    def add_source_state(self, nbr):
-        self.transition_as_target_num += 1
-        self.source_states.append(nbr)
+        
 
     def update_activated_states(self):
         self.current_activated_target_states.clear()

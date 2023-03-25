@@ -3,19 +3,18 @@ import transitions
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import pygraphviz as pgv
 import fractions
 from decimal import Decimal
-import random
+
 
 class Graphs():
     
     def __init__(self, num: int):
         self.state_dict = {}
-        # Use dictionary to save state infomation, likes{ key: State}
+        # Use dictionary to save state information, likes{ key: State}
         self.state_index_dict = {}
-        # Use dictionary to save state index pairs, likes { key0: 0, key1: 1}
+        # Use dictionary to save state index pairs, likes { s0: 0, s1: 1}  s0 is string.
         self.transition_dict = {}
         # Use dictionary to save state infomation, likes{ key: Transition}
         
@@ -25,7 +24,7 @@ class Graphs():
         # Calculate the current number of states
         self.state_counter = 0
         self.adjacency_matrix = np.zeros((num, num), dtype=np.float64)
-        self.ability_matrix = np.full((num,num),'undefined' )
+        self.controllability_matrix = np.full((num,num),'undefined' )
 
     def add_state(self, key):
         self.state_dict.update({key: state.State(key)})    
@@ -57,19 +56,20 @@ class Graphs():
         target_name = two_states[1]
         
         self.adjacency_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ipr
-        self.ability_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ability
+        self.controllability_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = ability
         source_state, target_state = self.get_state(source_name), self.get_state(target_name)
 
-        source_state.add_target_state(target_state, fraction_initial_probability)
+        source_state.transition_num_count()
         source_state.out_transitions.append(key)
+        source_state.out_states.append(target_name)
         target_state.in_transitions.append(key)
-        self.transition_dict.update({key: transitions.Transition(source_state, target_state, fraction_initial_probability, ability)})
+        self.transition_dict.update({key: transitions.Transition(source_state, target_state, ability)})
         self.transition_init_probability_dict.update({key: ipr})
         self.transition_current_probability_dict.update({key: ipr})
         source_state.all_connected_transition_dict.update({self.transition_dict.get(key): fraction_initial_probability})
         source_state.current_transitions_as_source.update({key: fraction_initial_probability})
 
-    def get_transition(self, key):            # Return Type: Transition
+    def get_transition(self, key)->transitions.Transition:            # Return Type: Transition
         transition = self.transition_dict.get(key)
         return transition
 
@@ -91,7 +91,7 @@ class Graphs():
     def get_transitions_names(self):
         return list(self.transition_dict.keys())
 
-    def get_transitions_dict(self):   #use it only for looks better
+    def get_transitions_status(self):   #use it only for looks better
         lst = self.get_transitions_names()
         lac = []
         lde = []
@@ -108,6 +108,7 @@ class Graphs():
         for i in states:
             i.update_activated_states()
             self.transition_current_probability_dict.update(i.current_transitions_as_source)
+#            self.ipradjacency_matrix[self.get_state_index(source_name), self.get_state_index(target_name)] = 
 
     def is_reachable(self, start: str, target: str): #Find if there is a path from state 'start' to state 'target'
         s = self.state_index_dict.get(start)
@@ -133,6 +134,26 @@ class Graphs():
             transition.activate()
         self.update()
 
+    def get_activated_transitions(self):
+        activated_trans = set()
+        for i in list(self.transition_dict.keys()):
+            if self.transition_dict.get(i).is_activated:
+                activated_trans.add(i)
+        return list(activated_trans)
+
+    def get_controllable_transitions(self):
+        controllable_trans = set()
+        for i in list(self.transition_dict.keys()):
+            if self.transition_dict.get(i).controllable:
+                controllable_trans.add(i)
+        return list(controllable_trans)
+
+    def get_activated_controllable_transitions(self):
+        activated_controllable_transitions = set()
+        for i in list(self.transition_dict.keys()):
+            if self.transition_dict.get(i).controllable and self.transition_dict.get(i).is_activated:
+                activated_controllable_transitions.add(i)
+        return list(activated_controllable_transitions)        
 
     def transitions_status(self):
         activated_trans = set()

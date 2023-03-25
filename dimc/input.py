@@ -18,15 +18,9 @@ def system_input():
     for i in b:
         G1.set_final_state(i)
     print("Then let's start inputting the transitions!")
-    
-    '''    state_list = G1.get_states_names()
-    for j in state_list:
-        nbr = input("Please input the neibor of state " + str(j)+ ': ').split()
-        for m in nbr: 
-            G1.add_transition(j, m)
-    ''' 
+
     while(True):   
-            transitions_list = input("Please input a transition, it's initial probability and can be deactivated or not just like a->b 0.5 yes, b->c 0.2 no. if all the transitions have been input, please input 'completed'  ")
+            transitions_list = input("Please input a transition, it's initial probability and whether it is controllable or not, just like a->b 0.5 can, b->c 0.2 cannot. if all the transitions have been input, please input 'completed'  ")
             if transitions_list.strip() == 'completed':
                 break
             else:

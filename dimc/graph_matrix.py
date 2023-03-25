@@ -32,7 +32,7 @@ def random_graph_generate(num: int):
     admx = np.zeros((num,num))
     ability_matrix = np.full((num,num),'undefined' )
     have_connection = np.full(num,False)
-    random.randint(1,100)
+    #random.randint(1,100)
     for i in range(num):
         for j in range(num):
             if j <= i and random_unit(p1):                          # have transition i->j with prob p1

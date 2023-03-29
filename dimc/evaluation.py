@@ -4,7 +4,6 @@ import heuristic
 import random
 import time
 import statistics
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -113,32 +112,20 @@ def evaluate(num:int): #num : The number of runs of the program used for evaluat
     print("Average running time of brute force after daut method: ", time4)
     print("Average running time of step_by_step_selection method: ", time5)
     print(time_consumption)
-    Statistical_Chart(method,time_consumption,count)
+    statistical_chart(method,time_consumption,count)
 
 
-def Statistical_Chart(method:list, time_consumption:list, count:list):
+def statistical_chart(method:list, time_consumption:list, count:list):
 
     x = method
     y = time_consumption
     z = count
-
-# 创建一个1x2的子图布局
     fig, axes = plt.subplots(2, 1)
-
-# 在第一个子图中绘制折线图
     axes[0].bar(x, z)
     axes[0].set_title("The number of times to get the maximum probability")
-
-# 在第二个子图中绘制散点图
     axes[1].bar(x, y)
     axes[1].set_title("Average running time")
-
-# 为整个图形添加标题
     fig.suptitle("Evaluation")
-
-# 调整子图间距
     plt.tight_layout()
-
-# 显示图形
     plt.show()
 

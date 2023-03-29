@@ -191,10 +191,10 @@ def show_graph(graphs: Graphs):      #input nx.Graph
     g = nx.nx_agraph.to_agraph(G)
     g.layout()
     g.draw("graph.png")
-    plt.cla()
+'''    plt.cla()
     img = plt.imread('graph.png')
     plt.imshow(img)
-    plt.show()
+    plt.show() '''
  
  
 

@@ -2,6 +2,7 @@ import graphs
 import heuristic
 import calculation
 import brute_force
+import time
 def g1():
     G1 = graphs.Graphs(5)
     G1.add_state('s0')
@@ -15,7 +16,7 @@ def g1():
     G1.add_transition('s1->s4','0.99','can') #can
     G1.add_transition('s2->s4','0.98','cannot')
     G1.add_transition('s2->s3','0.02','cannot')
-    G1.add_transition('s4->s4','1','cannot')
+    G1.add_transition('s4->s4','1','can')
     G1.set_final_state('s3')
     G1.set_initial_state('s0')
     return G1
@@ -79,11 +80,14 @@ G3 = g3()
 #print('the probability if all the transitions are activated: ')
 #calculation.print_result(G1)
 #print('\nthe result of deactivate all useless transitions :')
-#heuristic.deactivate_all_useless_transitions(G1)
+t0 = time.process_time()
+heuristic.brute_force_after_daut(G1)
+t1 = time.process_time()
+print('time',t1-t0)
 #print('\nthe result of dijkstra :')
-#heuristic.dijkstra(G1)
+heuristic.dijkstra(G1)
 #brute_force.brute_force(G1)
-print(heuristic.step_by_step_selection_probability(G1))
+#print(heuristic.step_by_step_selection_probability(G1))
 '''
 G1 = g1()
 G1.update()

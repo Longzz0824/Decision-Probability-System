@@ -147,6 +147,7 @@ def dijkstra(g1:graphs.Graphs):
                     heappush(q, (next, sright, path))
                     print(path)
     path_dic[end].reverse()
+    print(path_dic)
 #    print('path1111:',path_dic[end])
     must_be_activated_trans = []
     for i in range(len(path_dic[end]) - 1):

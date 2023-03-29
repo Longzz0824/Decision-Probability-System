@@ -24,10 +24,23 @@ def system_input():
             if transitions_list.strip() == 'completed':
                 break
             else:
-                each_transition_list = transitions_list.split(',')   # ['a->b 0.5 yes' , 'b->c 0.2 no']
+                each_transition_list = transitions_list.split(',')   # ['a->b 0.5 can' , 'b->c 0.2 cannot']
                 for i in each_transition_list:
                     this_transition = i.split()
                     G1.add_transition(this_transition[0], this_transition[1], this_transition[2])
                     
         
+    return G1
+
+def manual_input(num:int, initial_state:str, final_state:str, transitions:str): 
+    num = int(num)
+    G1 = graphs.Graphs(num)
+    for i in range(num):
+        G1.add_state('s'+str(i))
+    G1.set_initial_state(initial_state)
+    G1.set_final_state(final_state)
+    each_transition_list = transitions.split(',')   # ['a->b 0.5 can' , 'b->c 0.2 cannot']
+    for i in each_transition_list:
+        this_transition = i.split()
+        G1.add_transition(this_transition[0], this_transition[1], this_transition[2])   
     return G1

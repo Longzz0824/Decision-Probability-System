@@ -48,7 +48,7 @@ g.set_ylabel("Body mass (g)")
 plt.show()
 
 '''
-transition_probs = {
+'''transition_probs = {
     's0': [('s1', 0.5, True), ('s1', 0.5, True)],
     's2': [('s4', 0.98, False), ('s3', 0.02, False)],
     's1': [('s3', 0.01, False), ('s4', 0.99, True)],
@@ -56,4 +56,22 @@ transition_probs = {
 print("Length : %d" % len (transition_probs))
 for state, transitions in transition_probs.items():
     print(state)
-    print(transitions)
+    print(transitions)'''
+from tkinter import *
+from PIL import ImageTk, Image
+
+# create a window
+window = Tk()
+
+# load the image
+img = Image.open("graph.png")
+
+# create a PhotoImage object from the image
+photo_img = ImageTk.PhotoImage(img)
+
+# create a label and display the image
+label = Label(window, image=photo_img)
+label.grid(row=5,column=1)
+
+# start the window
+window.mainloop()

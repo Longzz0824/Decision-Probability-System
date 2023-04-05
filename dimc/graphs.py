@@ -88,6 +88,24 @@ class Graphs():
                 transList.extend(s.get_all_transitions_tuple())
         return transList    
 
+    def get_transition_tuples(self):
+        controllable_translist = []
+        uncontrollable_translist = []
+        for i in self.get_transitions_names():
+            tup =[]
+            s = self.get_transition(i)
+            if s.controllable:
+                tup.append(s.source.get_id())
+                tup.append(s.target.get_id())
+                tup.append(self.transition_init_probability_dict.get(i))
+                controllable_translist.append(tuple(tup))
+            else:
+                tup.append(s.source.get_id())
+                tup.append(s.target.get_id())
+                tup.append(self.transition_init_probability_dict.get(i))
+                uncontrollable_translist.append(tuple(tup))
+        return controllable_translist,uncontrollable_translist  
+
     def get_transitions_names(self):
         return list(self.transition_dict.keys())
 
@@ -102,6 +120,14 @@ class Graphs():
                 lde.append(i)
         dic = {'Activated Transitions' : lac, 'Deactivated Transitions' : lde}
         return dic
+    
+    def get_deactivated_transitions(self):
+        lst = self.transition_dict.values()
+        lde = []
+        for i in lst:
+            if i.is_deactivated == True:
+                lde.append(i.key)
+        return lde
 
     def update(self):
         states = self.get_states()
@@ -169,24 +195,25 @@ class Graphs():
 def show_graph(graphs: Graphs):      #input nx.Graph
     G = nx.DiGraph()
     states_name = graphs.get_states_names()
-    states = graphs.get_states()
-    for i in states:
-        i.update_activated_states()
-    trans = graphs.get_transitions()
+    ctrans,utrans = graphs.get_transition_tuples()
 #    print(states)
 #    print(trans)
     G.add_nodes_from(states_name)
-    G.add_weighted_edges_from(trans)
-    options = {
-    "font_size": 36,
-    "node_size": 3000,
-    "node_color": "white",
-    "edgecolors": "black",
-    "linewidths": 5,
-    "width": 5,
-    }
+
+    for u, v, p in ctrans:
+        G.add_edge(u, v, weight=p, color='lightblue', controllable=True)
+    
+    for u, v, p in utrans:
+        G.add_edge(u, v, weight=p, color='black', controllable=False)
+
+    edge_labels = {(u, v): str(d['weight']) for u, v, d in G.edges(data=True)}
     posi = nx.nx_agraph.graphviz_layout(G)
-    nx.draw_networkx(G, pos=posi, arrows=True, with_labels= True,**options)
+    nx.draw_networkx_nodes(G,posi,node_size=3000,node_color='white',linewidths=5)
+    nx.draw_networkx_edges(G, posi,edgelist=ctrans,edge_color='lightblue',width=5)
+    nx.draw_networkx_edges(G, posi,edgelist=utrans,edge_color='black',width=5)
+    nx.draw_networkx_labels(G, posi, font_size=36, font_family='Arial')
+    nx.draw_networkx_edge_labels(G, posi, edge_labels=edge_labels, font_size=20, font_family='Arial')
+
 #    plt.show()
     g = nx.nx_agraph.to_agraph(G)
     g.layout()
@@ -194,9 +221,9 @@ def show_graph(graphs: Graphs):      #input nx.Graph
 '''    plt.cla()
     img = plt.imread('graph.png')
     plt.imshow(img)
-    plt.show() '''
+    plt.show()'''
  
- 
+     
 
 
 

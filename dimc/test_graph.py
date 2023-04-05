@@ -19,6 +19,7 @@ def g1():
     G1.add_transition('s4->s4','1','can')
     G1.set_final_state('s3')
     G1.set_initial_state('s0')
+
     return G1
 
 def g2():
@@ -70,24 +71,37 @@ def g3():
     G1.set_final_state('s3')
     G1.set_initial_state('s0')
     return G1
+def g4():
+    G1 = graphs.Graphs(2)
+    G1.add_state('rainy')
+    G1.add_state('sunny')
+    G1.add_transition('rainy->rainy','0.3','can')
+    G1.add_transition('rainy->sunny','0.7','can')
+    G1.add_transition('sunny->rainy','0.4','can')
+    G1.add_transition('sunny->sunny','0.6','cannot')
+    G1.set_initial_state('rainy')
+    G1.set_final_state('sunny')
+    return G1
+
 G1 = g1()
 G2 = g2()
 G3 = g3()
+G4 = g4()
 #print(G2.adjacency_matrix, G2.ability_matrix,G2.state_index_dict)
 
-#graphs.show_graph(G1)
+#graphs.show_graph(G4)
 #calculation.print_special_states(G1)
 #print('the probability if all the transitions are activated: ')
 #calculation.print_result(G1)
 #print('\nthe result of deactivate all useless transitions :')
-t0 = time.process_time()
-heuristic.brute_force_after_daut(G1)
-t1 = time.process_time()
-print('time',t1-t0)
+#t0 = time.process_time()
+#heuristic.brute_force_after_daut(G1)
+#t1 = time.process_time()
+#print('time',t1-t0)
 #print('\nthe result of dijkstra :')
-heuristic.dijkstra(G1)
-#brute_force.brute_force(G1)
-#print(heuristic.step_by_step_selection_probability(G1))
+#heuristic.dijkstra(G1)
+print(brute_force.brute_force_gui(G1))
+print(heuristic.step_by_step_selection(G1))
 '''
 G1 = g1()
 G1.update()

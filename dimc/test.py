@@ -57,7 +57,8 @@ print("Length : %d" % len (transition_probs))
 for state, transitions in transition_probs.items():
     print(state)
     print(transitions)'''
-from tkinter import *
+
+'''from tkinter import *
 from PIL import ImageTk, Image
 
 # create a window
@@ -74,4 +75,21 @@ label = Label(window, image=photo_img)
 label.grid(row=5,column=1)
 
 # start the window
-window.mainloop()
+window.mainloop()'''
+import tkinter as tk
+from PIL import Image, ImageTk
+
+# 创建一个Tkinter窗口
+root = tk.Tk()
+
+# 加载图像并将其转换为Tkinter兼容格式
+image = Image.open("graph.png")
+photo = ImageTk.PhotoImage(image)
+
+# 创建一个标签并将图像分配给它
+label = tk.Label(image=photo)
+label.image = photo  # 保留对图像的引用，以避免垃圾回收
+
+# 将标签添加到窗口中并显示窗口
+label.pack()
+root.mainloop()

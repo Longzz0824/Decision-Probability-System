@@ -63,7 +63,13 @@ def random_graph_generate(num: int):
         new_graph.add_state('s'+str(i))
     
     new_graph.set_initial_state('s'+str(0))
-    new_graph.set_final_state('s'+str(np.random.randint(1,num)))
+    if num == 1:
+        new_graph.set_final_state('s0')
+    elif num ==2 :
+        new_graph.set_final_state('s1')
+    else:
+        new_graph.set_final_state('s'+str(np.random.randint(1,num-1)))
+
     
     for i in range(num):
         for j in range(num):
@@ -126,7 +132,7 @@ def matrix_to_graph(matrix_a:np.ndarray, matrix_b: np.ndarray):
         for j in range(num):
             if matrix_a[i][j] != 0:
                 new_graph.add_transition('s'+str(i)+'->'+'s'+str(j), matrix_a[i][j],matrix_b[i][j])
-
+    
     return new_graph
 
 

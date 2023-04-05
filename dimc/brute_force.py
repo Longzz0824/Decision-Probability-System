@@ -153,10 +153,13 @@ def brute_force_part(g:graphs.Graphs):
         n = res[i]
         res_list.append(n)
     
-    for i in range(len(res_list)):
-        print('\nBrute force after daut result is: ')
-        print('Result %d is: ' %(i+1))
-        res_print(res_list[i])
+    de_str = str()
+    probability = res_list[0].get('Probability')
+    for i in res_list:
+        str1 = str(i.get('Deactivated Transitions'))
+        de_str = de_str + str1 +'or'
+    de_str = de_str[:-2]
+    return probability, de_str
 
 
 
@@ -233,6 +236,7 @@ def brute_force_for_sbss(g:graphs.Graphs, transitions:list):
         aa = float(pr.strip('%')) 
         bb = aa/100.0
         pr_list.append(bb)
+    
 #    print(pr_list)
     index = max_index(pr_list)
 #    print(index)
@@ -243,7 +247,7 @@ def brute_force_for_sbss(g:graphs.Graphs, transitions:list):
     return res_list
 
 def brute_force_gui(g:graphs.Graphs):
-    t0 = time.process_time()
+ 
     trans = g.get_controllable_transitions()
     transitions_num = len(trans)
     lst = []
@@ -268,8 +272,8 @@ def brute_force_gui(g:graphs.Graphs):
             dic1.update(g.get_transitions_status())
             dic1.update({'Probability' : prob_str})
             res.append(dic1)
-        print(dic1)
-    print(res)
+#        print(dic1)
+#    print(res)
     pr_list = []
     for i in range(len(res)):
         resp = res[i]
@@ -284,6 +288,10 @@ def brute_force_gui(g:graphs.Graphs):
     for i in index:
         n = res[i]
         res_list.append(n)
-    t1 = time.process_time()
-    time_consumed = t1 - t0
-    return res_list, time_consumed
+    de_str = str()
+    probability = res_list[0].get('Probability')
+    for i in res_list:
+        str1 = str(i.get('Deactivated Transitions'))
+        de_str = de_str + str1 +'\nor'
+    de_str = de_str[:-2]
+    return probability, de_str

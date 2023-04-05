@@ -52,3 +52,11 @@ def print_result(g1:graphs.Graphs):
     print('deactivated transitions: ', end='')
     print(deactivated_transitions)
 
+def result_GUI(g1:graphs.Graphs):
+    probability = cal(g1)
+    _, deactivated_transitions = g1.transitions_status()
+    de_trans = str()
+    for i in deactivated_transitions:
+        de_trans = de_trans +','+ str(i)
+    de_trans = de_trans[1:]
+    return probability, de_trans

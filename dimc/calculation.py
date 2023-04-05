@@ -29,6 +29,7 @@ def cal(g: graphs.Graphs):
     set_option(precision = 8)
     if solver.check() == sat:
         result = solver.model()
+    
     if result[state_dic[init_state]] != None:
         probability = result[state_dic[init_state]].as_fraction()
         probability_float = float(probability)

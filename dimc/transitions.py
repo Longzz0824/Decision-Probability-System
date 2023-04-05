@@ -8,9 +8,9 @@ class Transition():
         self.target = s2
         self.is_activated = True
         self.is_deactivated = False
-        if ability == 'can':
+        if ability == 'controllable':
             self.controllable = True
-        elif ability == 'cannot':
+        elif ability == 'uncontrollable':
             self.controllable = False
 
 
